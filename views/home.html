@@ -1,0 +1,17 @@
+<html>
+    <head><title>Profile page</title></head>
+    <body>
+        <h1> Profile </h1>
+        <b> {{ .Username }} adalah nama saya</b>
+		{{range .Kota }}
+			<br>hehehe {{.}}
+		{{end}}
+		<div>
+			{{range .Post }}
+				<h1>{{.Title}}</h1>
+				<p>{{.Content}}</p>
+				<i>{{.Date}}</i>
+			{{end}}	
+		</div>
+    </body>
+</html>
