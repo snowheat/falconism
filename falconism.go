@@ -1,9 +1,14 @@
 package main
 
 import (
-	"fmt"
+	"github.com/go-siris/siris"
+	"github.com/go-siris/siris/context"
 )
 
 func main() {
-	fmt.Println("falconism")
+	app := siris.New()
+	app.Handle("GET", "/", func(ctx context.Context) {
+		ctx.HTML("<b> Hello world! </b>")
+	})
+	app.Run(siris.Addr(":1212"))
 }
