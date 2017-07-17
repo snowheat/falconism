@@ -1,5 +1,27 @@
 package main
 
+//go:generate qtc -dir=./templates
+
+import (
+	"github.com/buaazp/fasthttprouter"
+	FCRouter "github.com/snowheat/falconism/router"
+	FCDb "github.com/snowheat/falconism/system/db"
+	FCServer "github.com/snowheat/falconism/system/server"
+	"github.com/valyala/fasthttp"
+)
+
+func main() {
+	FCDb.Init()
+
+	router := fasthttprouter.New()
+	server := fasthttp.Server{}
+
+	FCRouter.Set(router)
+	FCServer.Set(&server, router)
+	FCServer.Run(&server)
+}
+
+/*
 import (
 	//"strconv"
 	"database/sql"
@@ -13,6 +35,31 @@ import (
 )
 
 func main() {
+	createDatabaseIfNotExist()
+	displayFalconismBanner()
+
+	app := siris.New()
+	siris.WithoutBanner(app)
+
+	app.AttachView(view.HTML("./views", ".html") .Reload(true))
+
+	app.OnErrorCode(siris.StatusNotFound, notFoundHandler)
+
+	app.Get("/", homeHandler)
+	adminRoutes := app.Party("/admin")
+	adminRoutes.Get("/", adminIndexHandler)
+	adminRoutes.Get("/post", adminPostHandler)
+
+	app.Get("/blog/{title:string regexp(^[a-z-0-9]+)}", blogHandler)
+	app.Get("/blog/topic/{title:string regexp(^[a-z-0-9]+)}", topicHandler)
+	app.Get("/blog/archive/{year:string regexp(^[a-z-0-9]+)}", archiveHandler)
+
+	if err := app.Run(siris.Addr(":1212"), siris.WithCharset("UTF-8")); err != nil {
+		panic(err)
+	}
+}
+
+func createDatabaseIfNotExist() {
 	if _, err := os.Stat("./falconism.db"); os.IsNotExist(err) {
 		os.Create("./falconism.db")
 	}
@@ -23,10 +70,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	db.Close()
-
-	/*
-	   CREATE TABLE "posts" (
+	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS posts (
 	   "post_datetime"  REAL,
 	   "post_title"  TEXT,
 	   "post_slug"  TEXT,
@@ -36,25 +80,40 @@ func main() {
 	   "sitemap_status"  INTEGER,
 	   "to_sitemap"  INTEGER DEFAULT 1,
 	   "meta_description"  TEXT
-	   );
-	*/
+	);`)
 
-	app := siris.New()
+	_, err = db.Exec(`
+		CREATE TABLE "config" (
+		"parameter"  TEXT,
+		"value"  TEXT
+		);
+	`)
 
-	app.AttachView(view.HTML("./views", ".html").Reload(true))
-
-	app.OnErrorCode(siris.StatusNotFound, notFoundHandler)
-
-	app.Get("/", homeHandler)
-	app.Get("/admin/{title:string regexp(^[a-z-0-9]+)}", adminHandler)
-	app.Get("/app/{title:string regexp(^[a-z-0-9]+)}", appHandler)
-	app.Get("/blog/{title:string regexp(^[a-z-0-9]+)}", blogHandler)
-	app.Get("/blog/topic/{title:string regexp(^[a-z-0-9]+)}", topicHandler)
-	app.Get("/blog/archive/{year:string regexp(^[a-z-0-9]+)}", archiveHandler)
-
-	if err := app.Run(siris.Addr(":1212"), siris.WithCharset("UTF-8")); err != nil {
-		panic(err)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
 	}
+
+	db.Close()
+}
+
+func displayFalconismBanner() {
+	fmt.Println(`
+     ______      __                 _
+    / ____/___ _/ /________  ____  (_)________ ___
+   / /_  / __ '/ / ___/ __ \/ __ \/ / ___/ __ '__ \
+  / __/ / /_/ / / /__/ /_/ / / / / (__  ) / / / / /
+ /_/    \__,_/_/\___/\____/_/ /_/_/____/_/ /_/ /_/
+
+ *** Ultra-minimalist blog engine optimized for cheap VPS ***
+
+ Powered by Go & Go-Siris
+
+ Now listening on: http://localhost:1212
+ Blog admin: http://localhost:1212/admin
+
+ Application started. Press CTRL+C to shut down.
+	`)
 }
 
 func homeHandler(ctx context.Context) {
@@ -80,8 +139,12 @@ func homeHandler(ctx context.Context) {
 	ctx.View("home.html")
 }
 
-func adminHandler(ctx context.Context) {
-	ctx.HTML("Admin")
+func adminIndexHandler(ctx context.Context) {
+	ctx.View("admin/index.html")
+}
+
+func adminPostHandler(ctx context.Context) {
+	ctx.View("admin/post.html")
 }
 
 func blogHandler(ctx context.Context) {
@@ -109,3 +172,5 @@ type Post struct {
 	Content string
 	Date    string
 }
+
+*/

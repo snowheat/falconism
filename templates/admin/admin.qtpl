@@ -1,0 +1,35 @@
+{% import (
+	FCTypes "github.com/snowheat/falconism/types"
+) %}
+
+{% interface
+Page {
+	Title()
+	Body()
+}
+%}
+
+{% func PageTemplate(posts []FCTypes.BlogPost) %}
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title></title>
+	</head>
+	<body>
+		<h1>Tulis</h1>
+		<form action="/admin/post" method="post">
+		  	Title:<br>
+		  	<input type="text" name="title"><br>
+		  	Content:<br>
+		  	<textarea name="content"></textarea><br>
+			<input type="submit" value="Post">
+		</form> 
+		<h1>Tulisan</h1>
+		{% for _,post := range posts %}
+			<h2>{%s post.Title %}</h2>
+			<p>{%s post.Content %}</p>
+		{% endfor %}
+	</body>
+</html>
+{% endfunc %}
