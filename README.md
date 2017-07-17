@@ -20,7 +20,7 @@ $ ./falconism
 ### On Windows :
 Just click falconism.exe 
 
-OR,,
+OR
 
 ```sh
 ./falconism
