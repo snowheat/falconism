@@ -1,4 +1,4 @@
-#Introducing Falconism
+# Introducing Falconism
 
 - Ultra-minimalist blogging platform
 - Tiny memory footprint
