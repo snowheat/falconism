@@ -7,7 +7,7 @@
 - Embedded webserver
 - Packed in ONE tiny executable file
 
-### Installation
+## Installation
 
 You don't install it.
 It's only ONE tiny executable file.
@@ -25,3 +25,10 @@ OR
 ```sh
 ./falconism
 ```
+
+
+## Download
+
+### Linux :
+
+### Windows 64bit :
