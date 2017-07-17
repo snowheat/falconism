@@ -1,17 +1,27 @@
-"# falconism" 
+#Introducing Falconism
 
-I want to write some contents right now, on my own domain in my cheap VPS.
-I need a simple blogging platform with tiny memory footprint.
-Embedded database.
-Written in Go language.
-With a simple admin page, so my family can write there too.
-
-Introducing Falconism
-
-- Ultra-minimalist blog engine
-- Tiny memory footprint optimized for cheap VPS
-- SEO friendly
-- Admin page
-- Content page
+- Ultra-minimalist blogging platform
+- Tiny memory footprint
+- Built-in SEO tools
 - Embedded database
-- Fast setup
+- Embedded webserver
+- Packed in ONE tiny executable file
+
+### Installation
+
+You don't install it.
+It's only ONE tiny executable file.
+
+### On Linux :
+```sh
+$ ./falconism
+```
+
+### On Windows :
+Just click falconism.exe 
+
+OR,,
+
+```sh
+./falconism
+```
